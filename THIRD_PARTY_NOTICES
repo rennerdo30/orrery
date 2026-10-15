@@ -29,3 +29,5 @@ fflate (assets/vendor/examples/jsm/libs/fflate.module.js) - MIT License, Copyrig
 https://github.com/101arrowz/fflate
 
 Rust crates (wry, tao, base64, serde_json, percent-encoding, ico, embed-resource) are used under their MIT / Apache-2.0 licences.
+
+Local modifications to vendored three.js files: FBXLoader.js keeps the full texture path from the FBX (upstream keeps only the base name) so the host can resolve it; marked with an "Orrery" comment. TGALoader.js is used unmodified.

@@ -308,7 +308,8 @@ class FBXTreeParser {
 			const filename = images[ id ];
 
 			if ( blobs[ filename ] !== undefined ) images[ id ] = blobs[ filename ];
-			else images[ id ] = images[ id ].split( '\\' ).pop();
+			// Orrery: keep the full path (upstream keeps only the basename) so the host can resolve it
+			// relative to the model or at the absolute path written in the file.
 
 		}
 
