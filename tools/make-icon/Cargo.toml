@@ -1,0 +1,8 @@
+[package]
+name = "make-icon"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+resvg = "0.45"
+ico = "0.4"

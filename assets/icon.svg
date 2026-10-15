@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+  <title>Orrery</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#232A52"/>
+      <stop offset="1" stop-color="#140F2E"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.45" r="0.55">
+      <stop offset="0" stop-color="#5C7CFF" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#5C7CFF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="top" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#B9F6FF"/>
+      <stop offset="1" stop-color="#5FD0FF"/>
+    </linearGradient>
+    <linearGradient id="left" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4C8DFF"/>
+      <stop offset="1" stop-color="#2F5BE0"/>
+    </linearGradient>
+    <linearGradient id="right" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8A4DFF"/>
+      <stop offset="1" stop-color="#5A2BD6"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="8" y="8" width="240" height="240" rx="56" fill="url(#bg)"/>
+  <rect x="8" y="8" width="240" height="240" rx="56" fill="url(#glow)"/>
+  <rect x="9.5" y="9.5" width="237" height="237" rx="54.5" fill="none" stroke="#FFFFFF" stroke-opacity="0.08" stroke-width="3"/>
+
+  <!-- orbit, back half (behind the cube) -->
+  <g transform="rotate(-20 128 132)">
+    <path d="M30 132 A98 32 0 0 1 226 132" fill="none" stroke="#FFC75F" stroke-opacity="0.55" stroke-width="7" stroke-linecap="round"/>
+  </g>
+
+  <!-- cube -->
+  <g stroke-linejoin="round">
+    <path d="M128 68 L184 100 L128 132 L72 100 Z" fill="url(#top)"/>
+    <path d="M72 100 L128 132 L128 196 L72 164 Z" fill="url(#left)"/>
+    <path d="M128 132 L184 100 L184 164 L128 196 Z" fill="url(#right)"/>
+    <path d="M72 100 L128 132 L184 100 M128 132 L128 196" fill="none" stroke="#FFFFFF" stroke-opacity="0.45" stroke-width="3"/>
+    <path d="M128 68 L184 100 L184 164 L128 196 L72 164 L72 100 Z" fill="none" stroke="#FFFFFF" stroke-opacity="0.25" stroke-width="3"/>
+  </g>
+
+  <!-- orbit, front half (over the cube) with satellite -->
+  <g transform="rotate(-20 128 132)">
+    <path d="M226 132 A98 32 0 0 1 30 132" fill="none" stroke="#FFC75F" stroke-width="7" stroke-linecap="round"/>
+    <circle cx="128" cy="164" r="10" fill="#FFE3A3" stroke="#FFC75F" stroke-width="4"/>
+  </g>
+</svg>

@@ -1,0 +1,22 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Orrery</title>
+<style>
+html,body{margin:0;height:100%;overflow:hidden;background:#1e1f24;font:12px/1.4 Segoe UI,system-ui,sans-serif}
+canvas{display:block;width:100%;height:100%}
+#info{position:fixed;top:8px;left:8px;max-width:340px;padding:8px 10px;background:rgba(0,0,0,.55);color:#e8e8e8;border-radius:6px;white-space:pre-line;pointer-events:none}
+#info b{color:#fff}
+#bar{position:fixed;top:8px;right:8px;display:none;gap:6px;align-items:center;background:rgba(0,0,0,.55);padding:6px 8px;border-radius:6px;color:#e8e8e8}
+#bar select{background:#222;color:#eee;border:1px solid #555}
+#err{position:fixed;left:8px;right:8px;bottom:8px;padding:8px 10px;background:rgba(160,30,30,.9);color:#fff;border-radius:6px;display:none;white-space:pre-wrap;max-height:35%;overflow:auto}
+#help{position:fixed;bottom:8px;right:8px;color:#9aa;font-size:11px;text-align:right;pointer-events:none}
+#hint{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;color:#889;font-size:16px;pointer-events:none}
+</style>
+<script type="importmap">{"imports":{"three":"/vendor/three.module.js","three/addons/":"/vendor/examples/jsm/"}}</script>
+</head><body>
+<div id="hint">Drop a .fbx, .glb or .gltf file here</div>
+<div id="info" style="display:none"></div>
+<div id="bar"><label>Animation <select id="clips"></select></label></div>
+<div id="err"></div>
+<div id="help">R reset &middot; G grid &middot; W wireframe &middot; B background</div>
+<script type="module" src="/viewer.js"></script>
+</body></html>
