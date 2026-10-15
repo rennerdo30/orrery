@@ -6,13 +6,22 @@ $root = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 Push-Location $root
 try {
   $version = (Select-String -Path Cargo.toml -Pattern '^version\s*=\s*"([^"]+)"' | Select-Object -First 1).Matches[0].Groups[1].Value
-  cargo build --release --locked
-  if ($LASTEXITCODE -ne 0) { throw 'cargo build failed' }
+  # Keep local paths (user profile, checkout) out of the shipped exe's panic/debug strings.
+  # Process-scoped only; restored below. Uses its own target dir so dev builds stay cached.
+  $oldFlags = $env:RUSTFLAGS
+  $env:RUSTFLAGS = "--remap-path-prefix=$($env:USERPROFILE)=~ --remap-path-prefix=$root=orrery"
+  try {
+    cargo build --release --locked --target-dir target\dist
+    if ($LASTEXITCODE -ne 0) { throw 'cargo build failed' }
+  } finally { $env:RUSTFLAGS = $oldFlags }
   $name = "orrery-$version-windows-x64"
   $stage = Join-Path $root "release\$name"
   if (Test-Path $stage) { Remove-Item -Recurse -Force $stage }
   New-Item -ItemType Directory -Force $stage | Out-Null
-  Copy-Item target\release\orrery.exe $stage
+  $exe = 'target\dist\release\orrery.exe'
+  $leak = Select-String -Path $exe -Pattern ([regex]::Escape($env:USERPROFILE)), ([regex]::Escape($root)) -SimpleMatch:$false -Quiet
+  if ($leak) { throw "Local path found in $exe; refusing to package" }
+  Copy-Item $exe $stage
   foreach ($f in 'LICENSE', 'THIRD_PARTY_NOTICES', 'README.md', 'register.ps1', 'unregister.ps1') { Copy-Item $f $stage }
   $zip = Join-Path $root "release\$name.zip"
   if (Test-Path $zip) { Remove-Item -Force $zip }
