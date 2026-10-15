@@ -9,6 +9,14 @@ Double-click a model, look at it. Works offline: no web server, no installer, an
 <!-- screenshot: viewer with a character model -->
 <!-- screenshot: animation dropdown and info overlay -->
 
+## Download
+
+1. Get `orrery-0.1.0-windows-x64.zip` from the [Releases page](https://github.com/rennerdo30/orrery/releases) and unzip it to a folder you will keep (the registration stores the exe's path).
+2. Optional: run `register.ps1` (right-click, Run with PowerShell, or `powershell -ExecutionPolicy Bypass -File register.ps1`) to add Orrery to the Open with list for `.fbx`, `.glb` and `.gltf`.
+3. Make it the default once: right-click a model file, Open with, Choose another app, Orrery, Always.
+
+The exe is not code-signed, so Windows SmartScreen may warn on first run: choose More info, then Run anyway. The WebView2 runtime is required; it is preinstalled on Windows 10 and 11.
+
 ## Features
 
 - Opens the file passed as the first argument; drag and drop another file onto the window to switch
