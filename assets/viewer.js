@@ -148,6 +148,15 @@ class SmartTextureLoader extends THREE.Loader {
   }
 }
 
+// Remote resources are never fetched: any URL with a scheme other than data:/blob: (or scheme-relative
+// "//host") is replaced by a local 404 and reported. (index.html also carries a CSP.)
+const blockedUrls = new Set();
+const isRemote = (u) => {
+  if (u.startsWith(location.origin + '/')) return false;
+  return /^(?!data:|blob:)(?:[a-z][a-z0-9+.-]+:|\/\/)/i.test(u.trim());
+};
+const blockedLines = () => [...blockedUrls].slice(0, 6).map((u) => 'remote resource blocked: ' + u.slice(0, 200));
+
 const NON_MODEL = /\.(png|jpe?g|gif|bmp|webp|tga|psd|tiff?|dds|ktx2?)$/i;
 
 function makeManager(failed) {
@@ -155,8 +164,9 @@ function makeManager(failed) {
   m.__waiters = [];
   m.onStart = () => { m.__started = true; m.__done = false; };
   m.onLoad = () => { m.__done = true; m.__waiters.splice(0).forEach((f) => f()); };
-  m.onError = (url) => failed.add(prettyName(url));
+  m.onError = (url) => { if (url !== '/blocked') failed.add(prettyName(url)); };
   m.setURLModifier((url) => {
+    if (isRemote(url)) { blockedUrls.add(url); return '/blocked'; }
     // Texture paths written by DCC tools (backslashes, drive letters, "..") go to the host's resolver.
     if (url.startsWith(ROOT_URL)) {
       const rest = safeDecode(url.slice(ROOT_URL.length));
@@ -221,6 +231,7 @@ async function parseModel(buf, ext, failed) {
   if (ext === 'glb' || ext === 'gltf') {
     const missing = new Set();
     await Promise.all(gltfExternalImages(buf, ext).map(async (u) => {
+      if (isRemote(u)) { blockedUrls.add(u); return; }
       try { const r = await fetch(ROOT_URL + u.split('/').map(encodeURIComponent).join('/')); if (!r.ok) throw 0; } catch (e) { missing.add(u); }
     }));
     if (missing.size) {
@@ -356,6 +367,7 @@ function median(a) { a.sort((x, y) => x - y); return a.length ? a[a.length >> 1]
 async function addLibrary(fileName, buf) {
   if (!model) { showError('Open a model first, then add animations to it.'); return; }
   showError('');
+  blockedUrls.clear();
   const ext = fileName.split('.').pop().toLowerCase();
   const group = fileName;
   const lib = loadingUi;
@@ -464,6 +476,7 @@ window.addLibrary = addLibrary;
 window.loadFile = async function (name) {
   const id = ++loadId;
   const failed = new Set();
+  blockedUrls.clear();
   loadingUi.show(name);
   showError(''); showNote('');
   document.title = name;
@@ -515,10 +528,13 @@ window.loadFile = async function (name) {
       `\nTextures: ${tr.ok} loaded` + (tr.missing.length ? `, ${tr.missing.length} missing` : '') +
       `\nSize: ${fmt(size.x)} x ${fmt(size.y)} x ${fmt(size.z)}` +
       `\nAnimations: ${own.length ? own.map((c) => `${c.name || 'clip'} (${c.duration.toFixed(2)}s)`).slice(0, 6).join(', ') + (own.length > 6 ? ` ...(${own.length})` : '') : 'none'}`));
-    if (tr.missing.length) {
-      showError('Missing textures (the mesh is still shown):\n' + tr.missing.slice(0, 8).join('\n') + (tr.missing.length > 8 ? `\n...and ${tr.missing.length - 8} more` : ''));
+    if (tr.missing.length || blockedUrls.size) {
+      const lines = [];
+      if (tr.missing.length) lines.push('Missing textures (the mesh is still shown):', ...tr.missing.slice(0, 8), ...(tr.missing.length > 8 ? [`...and ${tr.missing.length - 8} more`] : []));
+      lines.push(...blockedLines());
+      showError(lines.join('\n'));
     }
-    post(`log:${tr.missing.length ? 'WARN' : 'OK'} ${name} tris=${s.tris} meshes=${s.meshes} mats=${s.mats} texs_ok=${tr.ok}/${tr.total} missing=[${tr.missing.join(',')}] clips=${own.length}`);
+    post(`log:${(tr.missing.length || blockedUrls.size) ? 'WARN' : 'OK'} ${name} tris=${s.tris} meshes=${s.meshes} mats=${s.mats} texs_ok=${tr.ok}/${tr.total} missing=[${tr.missing.join(',')}] clips=${own.length}${blockedUrls.size ? " " + blockedLines().join("; ") : ""}`);
     await nextFrame();   // hide the loader only after the first rendered frame of the model
     loadingUi.hide();
     if (window.__LIB) await window.onDrop(window.__LIB, true);
@@ -526,8 +542,8 @@ window.loadFile = async function (name) {
   } catch (e) {
     loadingUi.hide();
     const msg = (e && e.message) ? e.message : String(e);
-    showError('Failed to load ' + name + '\n' + msg);
-    post(`log:ERROR ${name} ${msg}`);
+    showError('Failed to load ' + name + '\n' + msg + (blockedUrls.size ? '\n' + blockedLines().join('\n') : ''));
+    post(`log:ERROR ${name} ${msg}${blockedUrls.size ? " | " + blockedLines().join("; ") : ""}`);
     if (window.__SHOT) afterShot();
   }
 };

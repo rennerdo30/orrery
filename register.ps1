@@ -3,8 +3,13 @@
 # and Orrery.Model under OpenWithProgids for .fbx, .glb and .gltf.
 # It does NOT set the default app: Windows protects that with a hash (UserChoice).
 # One-time step: right-click a model file > Open with > Choose another app > Orrery > Always.
-param([string]$Exe = (Join-Path $PSScriptRoot 'dist\orrery.exe'))
+# Default exe: dist\orrery.exe, else target\release\orrery.exe (after `cargo build --release`); or pass -Exe <path>.
+param([string]$Exe = '')
 $ErrorActionPreference = 'Stop'
+if (-not $Exe) {
+  $Exe = @('dist\orrery.exe', 'target\release\orrery.exe') | ForEach-Object { Join-Path $PSScriptRoot $_ } | Where-Object { Test-Path $_ } | Select-Object -First 1
+  if (-not $Exe) { throw 'orrery.exe not found. Run: cargo build --release   (or pass -Exe <path>)' }
+}
 $Exe = (Resolve-Path $Exe).Path
 $progId = 'Orrery.Model'
 $exts = '.fbx', '.glb', '.gltf'
