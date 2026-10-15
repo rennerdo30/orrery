@@ -165,7 +165,8 @@ function makeManager(failed) {
   m.onStart = () => { m.__started = true; m.__done = false; };
   m.onLoad = () => { m.__done = true; m.__waiters.splice(0).forEach((f) => f()); };
   m.onError = (url) => { if (url !== '/blocked') failed.add(prettyName(url)); };
-  m.setURLModifier((url) => {
+  // Kept on the manager so later modifiers can wrap it instead of replacing the remote block.
+  m.__baseModifier = (url) => {
     if (isRemote(url)) { blockedUrls.add(url); return '/blocked'; }
     // Texture paths written by DCC tools (backslashes, drive letters, "..") go to the host's resolver.
     if (url.startsWith(ROOT_URL)) {
@@ -173,7 +174,8 @@ function makeManager(failed) {
       if (/[\\:]|\.\.\//.test(rest)) return '/t/' + encodeURIComponent(rest);
     }
     return url;
-  });
+  };
+  m.setURLModifier(m.__baseModifier);
   m.addHandler(/\.(tga|psd|tiff?|dds)$/i, new SmartTextureLoader(m));
   return m;
 }
@@ -236,7 +238,7 @@ async function parseModel(buf, ext, failed) {
     }));
     if (missing.size) {
       for (const u of missing) failed.add(u.split('/').pop());
-      manager.setURLModifier((url) => (NON_MODEL.test(safeDecode(url)) && [...missing].some((u) => safeDecode(url).endsWith(u)) ? STUB : url));
+      manager.setURLModifier((url) => (NON_MODEL.test(safeDecode(url)) && [...missing].some((u) => safeDecode(url).endsWith(u)) ? STUB : manager.__baseModifier(url)));
     }
     const g = await new Promise((res, rej) => new GLTFLoader(manager).parse(buf, ROOT_URL, res, rej));
     return { root: g.scene, clips: g.animations || [], manager };
