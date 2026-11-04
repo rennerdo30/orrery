@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Fixed: a glTF with a missing external image also listed the internal placeholder image ("png;base64,...") as a missing texture; the placeholder PNG had a broken checksum and failed to decode
+- Control bar stays on one line at the default window size (it was limited to half the window width and wrapped its labels); the key help moves to the top while the bar is shown, and the error banner sits above the bar
+- README and website show real captures of the app (docs/SCREENSHOTS.md, scripts/capture-window.ps1)
 - THIRD_PARTY_NOTICES: licence texts are read as UTF-8 (no more garbled characters), fflate gets its full MIT text, TGALoader is listed, and the Microsoft WebView2 SDK loader (statically linked through webview2-com-sys) and the webview2-rs MIT licence are now included
 - Website at orrery.renner.dev, with its own three.js notices in website/vendor/LICENSES.txt
 

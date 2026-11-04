@@ -17,8 +17,7 @@
 </p>
 
 <p align="center">
-  <a href="https://orrery.renner.dev"><img src="website/assets/og.png" alt="The Orrery website: a live three.js viewer showing a brass orrery, with the app's info overlay and animation controls"></a>
-  <br><sub>The live demo on the website, rendered in the browser with the same three.js build and overlay as the app.</sub>
+  <img src="docs/images/viewer.webp" alt="Orrery showing a brass orrery model: the info overlay with triangles, meshes, materials, textures, size and two animation clips, a grid, and the animation control bar">
 </p>
 
 ## Why Orrery
@@ -46,6 +45,19 @@ It treats every model as a file from a stranger: the viewer reads only the model
 | <kbd>W</kbd> | Toggle wireframe |
 | <kbd>B</kbd> | Dark / light background |
 | <kbd>Space</kbd> | Play / pause |
+
+<table>
+  <tr>
+    <td><img src="docs/images/missing-texture.webp" alt="A glTF with a missing texture: the overlay says 1 missing and a red banner names jupiter_bands.png while the model is still drawn"></td>
+    <td><img src="docs/images/add-animations.webp" alt="Clips added from a second file: a note says matched 16/16 bones (exact names), 2 clips added"></td>
+  </tr>
+  <tr>
+    <td align="center"><b>Missing textures</b> are named in a banner; the mesh is still drawn.</td>
+    <td align="center"><b>Add animations</b> binds clips from another file by bone name and says how many matched.</td>
+  </tr>
+</table>
+
+<sub>Real captures of `orrery.exe` with an original model; see [docs/SCREENSHOTS.md](docs/SCREENSHOTS.md).</sub>
 
 ## Get started
 

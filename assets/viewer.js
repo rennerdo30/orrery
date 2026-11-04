@@ -164,7 +164,7 @@ function makeManager(failed) {
   m.__waiters = [];
   m.onStart = () => { m.__started = true; m.__done = false; };
   m.onLoad = () => { m.__done = true; m.__waiters.splice(0).forEach((f) => f()); };
-  m.onError = (url) => { if (url !== '/blocked') failed.add(prettyName(url)); };
+  m.onError = (url) => { if (url !== '/blocked' && url !== STUB) failed.add(prettyName(url)); };
   // Kept on the manager so later modifiers can wrap it instead of replacing the remote block.
   m.__baseModifier = (url) => {
     if (isRemote(url)) { blockedUrls.add(url); return '/blocked'; }
@@ -223,7 +223,9 @@ function gltfExternalImages(buf, ext) {
     return (json.images || []).map((i) => i.uri).filter((u) => u && !u.startsWith('data:'));
   } catch (e) { return []; }
 }
-const STUB = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mO8c+fOfwAIpAN+3o9bjQAAAABJRU5ErkJggg==';
+// A valid 1x1 white PNG (an earlier stub had a broken IDAT checksum, failed to decode and was
+// reported as a missing texture itself).
+const STUB = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR4nGP4////fwAJ+wP9KobjigAAAABJRU5ErkJggg==';
 
 async function parseModel(buf, ext, failed) {
   const manager = makeManager(failed);
@@ -253,10 +255,19 @@ let mixer = null, action = null, current = -1, playing = true, speed = 1, loop =
 const clock = new THREE.Clock();
 let restPose = new Map();
 
+// The error banner sits just above the control bar, however many rows the bar wraps into.
+function placeErr() {
+  const ctl = $('ctl');
+  $('err').style.bottom = ctl.style.display === 'flex' ? (ctl.offsetHeight + 16) + 'px' : '';
+}
+window.addEventListener('resize', placeErr);
+
 function resetAnimation() {
   if (mixer) mixer.stopAllAction();
   mixer = null; action = null; current = -1; entries.length = 0;
   $('ctl').style.display = 'none';
+  document.documentElement.classList.remove('has-ctl');
+  placeErr();
 }
 
 function rootLocked(entry) {
@@ -322,6 +333,8 @@ function updateTime() {
 
 function refreshControls() {
   $('ctl').style.display = entries.length ? 'flex' : 'none';
+  document.documentElement.classList.toggle('has-ctl', entries.length > 0);   // key help moves to the top, out of the bar's way
+  placeErr();
   buildClipSelect();
 }
 

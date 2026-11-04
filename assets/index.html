@@ -13,13 +13,17 @@ canvas{display:block;width:100%;height:100%}
 #err{position:fixed;left:8px;right:8px;bottom:64px;background:rgba(160,30,30,.9);color:#fff;display:none;white-space:pre-wrap;max-height:30%;overflow:auto}
 #help{position:fixed;bottom:8px;right:8px;color:#9aa;font-size:11px;text-align:right;pointer-events:none}
 #hint{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;color:#889;font-size:16px;pointer-events:none}
-#ctl{position:fixed;left:50%;bottom:8px;transform:translateX(-50%);display:none;align-items:center;gap:8px;max-width:calc(100% - 200px)}
+#ctl{position:fixed;left:0;right:0;margin:0 auto;width:max-content;bottom:8px;display:none;align-items:center;flex-wrap:wrap;justify-content:center;gap:8px;max-width:calc(100% - 16px);white-space:nowrap}
+#ctl label{display:inline-flex;align-items:center;gap:3px}
+#time{font-variant-numeric:tabular-nums}
+.has-ctl #help{bottom:auto;top:8px}
+.has-ctl #note{top:28px}
 #ctl button,#ctl select{background:#2a2c33;color:#eee;border:1px solid #555;border-radius:4px;padding:3px 8px;font:inherit}
 #ctl button{cursor:pointer}
 #ctl button:hover{background:#3a3d46}
-#scrub{width:240px}
+#scrub{width:180px}
 #clipname{max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-#clips{max-width:260px}
+#clips{max-width:180px}
 #loading{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:#1e1f24;z-index:10}
 .loading #loading{display:flex}
 #logo{position:relative;width:112px;height:112px}

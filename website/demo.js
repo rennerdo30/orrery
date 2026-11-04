@@ -13,11 +13,15 @@ const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').match
 
 // ---------------------------------------------------------------- renderer (as in the app)
 
+// Without the viewer element (for example when tools/export-demo imports this module to write
+// the demo model as a GLB) only buildOrrery is used.
 let renderer;
-try {
-  renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'low-power' });
-} catch (e) {
-  view.classList.add('no-webgl');
+if (view) {
+  try {
+    renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'low-power' });
+  } catch (e) {
+    view.classList.add('no-webgl');
+  }
 }
 
 if (renderer) start();
@@ -341,7 +345,7 @@ function start() {
 
 // ================================================================ the demo model
 
-function buildOrrery() {
+export function buildOrrery() {
   const root = new THREE.Group();
   root.name = 'Orrery';
 

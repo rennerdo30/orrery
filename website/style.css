@@ -382,6 +382,13 @@ main > .band:first-child { border-top: 0; padding-top: clamp(24px, 4vw, 48px); }
 .keys { list-style: none; margin: 18px 0 0; padding: 16px 0 0; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 10px 20px; font-size: 0.92rem; }
 .keys kbd { margin-right: 6px; }
 
+/* gallery of real app captures */
+.gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.shot { margin: 0; }
+.shot-wide { grid-column: 1 / -1; }
+.shot img { width: 100%; border-radius: 10px; border: 1px solid var(--line); box-shadow: 0 18px 50px -24px rgba(0, 0, 0, 0.55); background: var(--app-bg); }
+.shot figcaption { font-size: 0.92rem; color: var(--ink-2); margin-top: 10px; }
+
 /* texture search: a ladder of steps joined by an orbit-gold rail */
 .search {
   list-style: none; margin: 0; padding: 0;
@@ -506,7 +513,7 @@ pre {
 }
 @media (max-width: 720px) {
   .top nav a:not(.nav-gh) { display: none; }
-  .gate, .dl-grid { grid-template-columns: minmax(0, 1fr); }
+  .gate, .dl-grid, .gallery { grid-template-columns: minmax(0, 1fr); }
   .gate-col + .gate-col { border-left: 0; border-top: 1px solid var(--line); }
   .viewport { aspect-ratio: 4 / 4.4; }
   .v-help { display: none; }
