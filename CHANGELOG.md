@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- THIRD_PARTY_NOTICES: licence texts are read as UTF-8 (no more garbled characters), fflate gets its full MIT text, TGALoader is listed, and the Microsoft WebView2 SDK loader (statically linked through webview2-com-sys) and the webview2-rs MIT licence are now included
+- Website at orrery.renner.dev, with its own three.js notices in website/vendor/LICENSES.txt
+
 ## 0.1.0
 
 First release.

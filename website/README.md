@@ -6,7 +6,9 @@ step, no external fonts or scripts, strict Content-Security-Policy.
 - **Live demo:** `demo.js` runs the hero viewer with the same three.js build the app embeds
   (`vendor/` is a copy of `assets/vendor/`, three.js r186). It mirrors the app's lighting,
   framing, overlay format and keys (`assets/viewer.js`). Keep the two in step when the viewer
-  changes, and update `vendor/` together with `assets/vendor/`.
+  changes, and update `vendor/` together with `assets/vendor/`. `vendor/LICENSES.txt` carries
+  the three.js and fflate notices (linked from the footer); keep it in step with
+  `tools/gen-notices/header.txt`.
 - **Demo model:** the brass orrery is built in code in `buildOrrery()`; it is not a capture of
   the app and the caption says so. Visitors can open their own GLB, glTF or FBX: files are read
   in the browser and never uploaded, and the CSP blocks any remote URL a model references.

@@ -119,4 +119,6 @@ cargo run --release --manifest-path tools/make-icon/Cargo.toml -- .
 
 ## License
 
-MIT, see `LICENSE`. three.js (MIT) is bundled, see `THIRD_PARTY_NOTICES`.
+MIT, see `LICENSE`.
+
+Orrery bundles three.js r186 and fflate (both MIT), links 101 Rust crates under permissive licences (MIT, Apache-2.0, Unicode-3.0, Zlib, BSD-style and similar) and statically links the Microsoft WebView2 SDK loader (BSD-style licence). Their licence texts and copyright notices are in [`THIRD_PARTY_NOTICES`](THIRD_PARTY_NOTICES), which ships in every release zip; regenerate it with `tools/gen-notices/gen-notices.ps1` after dependency updates. The website serves the same three.js files, with notices in [`website/vendor/LICENSES.txt`](website/vendor/LICENSES.txt).

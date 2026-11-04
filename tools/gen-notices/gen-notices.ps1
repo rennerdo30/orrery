@@ -16,7 +16,7 @@ try {
     if ($l -match '^(\S+) v(\S+)') { if ($Matches[1] -ne 'orrery') { [pscustomobject]@{ Name = $Matches[1]; Version = $Matches[2] } } }
   }
   $sb = New-Object System.Text.StringBuilder
-  [void]$sb.Append((Get-Content (Join-Path $PSScriptRoot 'header.txt') -Raw))
+  [void]$sb.Append((Get-Content (Join-Path $PSScriptRoot 'header.txt') -Raw -Encoding UTF8))
   [void]$sb.AppendLine('')
   [void]$sb.AppendLine('================================================================')
   [void]$sb.AppendLine("Rust crates linked into orrery.exe ($target, $(@($linked).Count) crates)")
@@ -37,8 +37,13 @@ try {
       foreach ($f in $files) {
         [void]$sb.AppendLine('')
         [void]$sb.AppendLine("[$($f.Name)]")
-        [void]$sb.AppendLine((Get-Content -LiteralPath $f.FullName -Raw).TrimEnd())
+        [void]$sb.AppendLine((Get-Content -LiteralPath $f.FullName -Raw -Encoding UTF8).TrimEnd())
       }
+    } elseif (Test-Path -LiteralPath (Join-Path $PSScriptRoot "licenses/$($c.Name).txt")) {
+      # The crate ships no licence file: use the licence of its upstream repository, kept in licenses/.
+      [void]$sb.AppendLine('')
+      [void]$sb.AppendLine('[LICENSE, from the crate''s repository; the published crate ships no licence file]')
+      [void]$sb.AppendLine((Get-Content -LiteralPath (Join-Path $PSScriptRoot "licenses/$($c.Name).txt") -Raw -Encoding UTF8).TrimEnd())
     } else {
       $noLicense += $c.Name
       $authors = if ($p.authors -and $p.authors.Count) { ($p.authors -join '; ') } else { '(none listed)' }

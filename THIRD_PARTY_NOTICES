@@ -1,11 +1,11 @@
 Orrery bundles the following third-party software.
 
-three.js r186 (three.module.js, three.core.js, and the GLTFLoader, FBXLoader, OrbitControls, RoomEnvironment, BufferGeometryUtils, SkeletonUtils, NURBSCurve and NURBSUtils examples) under assets/vendor/
+three.js r186 (three.module.js, three.core.js, and the GLTFLoader, FBXLoader, TGALoader, OrbitControls, RoomEnvironment, BufferGeometryUtils, SkeletonUtils, NURBSCurve and NURBSUtils examples) under assets/vendor/ (embedded in orrery.exe) and website/vendor/ (the same files, served by the project website)
 https://threejs.org - MIT License:
 
 The MIT License
 
-Copyright Â© 2010-2026 three.js authors
+Copyright © 2010-2026 three.js authors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,12 +25,156 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-fflate (assets/vendor/examples/jsm/libs/fflate.module.js) - MIT License, Copyright (c) 2023 Arjun Barrett
+fflate 0.8.2 (examples/jsm/libs/fflate.module.js, bundled with three.js) - MIT License:
 https://github.com/101arrowz/fflate
+
+MIT License
+
+Copyright (c) 2023 Arjun Barrett
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 
 
 Local modifications to vendored three.js files: FBXLoader.js keeps the full texture path from the FBX (upstream keeps only the base name) so the host can resolve it; marked with an "Orrery" comment. TGALoader.js is used unmodified.
+
+Microsoft WebView2 SDK 1.0.3800.47: WebView2LoaderStatic.lib, statically linked into orrery.exe
+by the webview2-com-sys crate (identical by SHA-256 to build/native/x64/WebView2LoaderStatic.lib in the
+Microsoft.Web.WebView2 1.0.3800.47 NuGet package). Its LICENSE.txt and NOTICE.txt follow.
+The WebView2 runtime itself is part of Windows and is not distributed with Orrery.
+
+[LICENSE.txt]
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are
+met:
+
+   * Redistributions of source code must retain the above copyright
+notice, this list of conditions and the following disclaimer.
+   * Redistributions in binary form must reproduce the above
+copyright notice, this list of conditions and the following disclaimer
+in the documentation and/or other materials provided with the
+distribution.
+   * The name of Microsoft Corporation, or the names of its contributors
+may not be used to endorse or promote products derived from this
+software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+[NOTICE.txt]
+NOTICES AND INFORMATION
+Do Not Translate or Localize
+
+This software incorporates material from third parties. Microsoft makes certain
+open source code available at https://3rdpartysource.microsoft.com, or you may
+send a check or money order for US $5.00, including the product name, the open
+source component name, and version number, to:
+
+Source Code Compliance Team
+Microsoft Corporation
+One Microsoft Way
+Redmond, WA 98052
+USA
+
+Notwithstanding any other terms, you may reverse engineer this software to the
+extent required to debug changes to any libraries licensed under the GNU Lesser
+General Public License.
+
+----------------------------------------------------------------
+
+Antlr3.Runtime 3.5.2-rc1 - BSD 3-Clause
+
+[The "BSD license"]
+Copyright (c) 2011 The ANTLR Project
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+ 1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+ 3. Neither the name of the copyright holder nor the names of its
+    contributors may be used to endorse or promote products derived from
+    this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+---------------------------------------------------------
+
+---------------------------------------------------------
+
+StringTemplate4 4.0.9-rc1 - BSD 3-Clause
+
+[The "BSD license"]
+Copyright (c) 2011 The ANTLR Project
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+ 1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+ 3. Neither the name of the copyright holder nor the names of its
+    contributors may be used to endorse or promote products derived from
+    this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+---------------------------------------------------------
+
 
 ================================================================
 Rust crates linked into orrery.exe (x86_64-pc-windows-msvc, 101 crates)
@@ -3522,7 +3666,7 @@ terms compatible with the above MIT license:
 * musl libc https://www.musl-libc.org/. This library contains the following
   copyright:
 
-      Copyright Â© 2005-2020 Rich Felker, et al.
+      Copyright © 2005-2020 Rich Felker, et al.
 
 * The CORE-MATH project https://core-math.gitlabpages.inria.fr/. CORE-MATH
   routines are available under the MIT license on a per-file basis.
@@ -3532,12 +3676,12 @@ math portions of the library:
 
 ------------------------------------------------------------------------------
 Much of the math library code (src/math/* and src/complex/*) is
-Copyright Â© 1993,2004 Sun Microsystems or
-Copyright Â© 2003-2011 David Schultz or
-Copyright Â© 2003-2009 Steven G. Kargl or
-Copyright Â© 2003-2009 Bruce D. Evans or
-Copyright Â© 2008 Stephen L. Moshier or
-Copyright Â© 2017-2018 Arm Limited
+Copyright © 1993,2004 Sun Microsystems or
+Copyright © 2003-2011 David Schultz or
+Copyright © 2003-2009 Steven G. Kargl or
+Copyright © 2003-2009 Bruce D. Evans or
+Copyright © 2008 Stephen L. Moshier or
+Copyright © 2017-2018 Arm Limited
 and labelled as such in comments in the individual source files. All
 have been licensed under extremely permissive terms.
 ------------------------------------------------------------------------------
@@ -4610,7 +4754,7 @@ UNICODE LICENSE V3
 
 COPYRIGHT AND PERMISSION NOTICE
 
-Copyright Â© 2020-2024 Unicode, Inc.
+Copyright © 2020-2024 Unicode, Inc.
 
 NOTICE TO USER: Carefully read the following legal agreement. BY
 DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR
@@ -4648,10 +4792,10 @@ authorization of the copyright holder.
 
 SPDX-License-Identifier: Unicode-3.0
 
-â€”
+—
 
 Portions of ICU4X may have been adapted from ICU4C and/or ICU4J.
-ICU 1.8.1 to ICU 57.1 Â© 1995-2016 International Business Machines Corporation and others.
+ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation and others.
 
 ---- icu_collections 2.3.0 -- Unicode-3.0
 source: https://github.com/unicode-org/icu4x
@@ -4661,7 +4805,7 @@ UNICODE LICENSE V3
 
 COPYRIGHT AND PERMISSION NOTICE
 
-Copyright Â© 2020-2024 Unicode, Inc.
+Copyright © 2020-2024 Unicode, Inc.
 
 NOTICE TO USER: Carefully read the following legal agreement. BY
 DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR
@@ -4699,10 +4843,10 @@ authorization of the copyright holder.
 
 SPDX-License-Identifier: Unicode-3.0
 
-â€”
+—
 
 Portions of ICU4X may have been adapted from ICU4C and/or ICU4J.
-ICU 1.8.1 to ICU 57.1 Â© 1995-2016 International Business Machines Corporation and others.
+ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation and others.
 
 ---- icu_locale_core 2.3.0 -- Unicode-3.0
 source: https://github.com/unicode-org/icu4x
@@ -4712,7 +4856,7 @@ UNICODE LICENSE V3
 
 COPYRIGHT AND PERMISSION NOTICE
 
-Copyright Â© 2020-2024 Unicode, Inc.
+Copyright © 2020-2024 Unicode, Inc.
 
 NOTICE TO USER: Carefully read the following legal agreement. BY
 DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR
@@ -4750,10 +4894,10 @@ authorization of the copyright holder.
 
 SPDX-License-Identifier: Unicode-3.0
 
-â€”
+—
 
 Portions of ICU4X may have been adapted from ICU4C and/or ICU4J.
-ICU 1.8.1 to ICU 57.1 Â© 1995-2016 International Business Machines Corporation and others.
+ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation and others.
 
 ---- icu_locale_core 2.3.0 -- Unicode-3.0
 source: https://github.com/unicode-org/icu4x
@@ -4763,7 +4907,7 @@ UNICODE LICENSE V3
 
 COPYRIGHT AND PERMISSION NOTICE
 
-Copyright Â© 2020-2024 Unicode, Inc.
+Copyright © 2020-2024 Unicode, Inc.
 
 NOTICE TO USER: Carefully read the following legal agreement. BY
 DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR
@@ -4801,10 +4945,10 @@ authorization of the copyright holder.
 
 SPDX-License-Identifier: Unicode-3.0
 
-â€”
+—
 
 Portions of ICU4X may have been adapted from ICU4C and/or ICU4J.
-ICU 1.8.1 to ICU 57.1 Â© 1995-2016 International Business Machines Corporation and others.
+ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation and others.
 
 ---- icu_normalizer 2.3.0 -- Unicode-3.0
 source: https://github.com/unicode-org/icu4x
@@ -4814,7 +4958,7 @@ UNICODE LICENSE V3
 
 COPYRIGHT AND PERMISSION NOTICE
 
-Copyright Â© 2020-2024 Unicode, Inc.
+Copyright © 2020-2024 Unicode, Inc.
 
 NOTICE TO USER: Carefully read the following legal agreement. BY
 DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR
@@ -4852,10 +4996,10 @@ authorization of the copyright holder.
 
 SPDX-License-Identifier: Unicode-3.0
 
-â€”
+—
 
 Portions of ICU4X may have been adapted from ICU4C and/or ICU4J.
-ICU 1.8.1 to ICU 57.1 Â© 1995-2016 International Business Machines Corporation and others.
+ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation and others.
 
 ---- icu_normalizer_data 2.3.0 -- Unicode-3.0
 source: https://github.com/unicode-org/icu4x
@@ -4865,7 +5009,7 @@ UNICODE LICENSE V3
 
 COPYRIGHT AND PERMISSION NOTICE
 
-Copyright Â© 2020-2024 Unicode, Inc.
+Copyright © 2020-2024 Unicode, Inc.
 
 NOTICE TO USER: Carefully read the following legal agreement. BY
 DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR
@@ -4903,10 +5047,10 @@ authorization of the copyright holder.
 
 SPDX-License-Identifier: Unicode-3.0
 
-â€”
+—
 
 Portions of ICU4X may have been adapted from ICU4C and/or ICU4J.
-ICU 1.8.1 to ICU 57.1 Â© 1995-2016 International Business Machines Corporation and others.
+ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation and others.
 
 ---- icu_properties 2.3.0 -- Unicode-3.0
 source: https://github.com/unicode-org/icu4x
@@ -4916,7 +5060,7 @@ UNICODE LICENSE V3
 
 COPYRIGHT AND PERMISSION NOTICE
 
-Copyright Â© 2020-2024 Unicode, Inc.
+Copyright © 2020-2024 Unicode, Inc.
 
 NOTICE TO USER: Carefully read the following legal agreement. BY
 DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR
@@ -4954,10 +5098,10 @@ authorization of the copyright holder.
 
 SPDX-License-Identifier: Unicode-3.0
 
-â€”
+—
 
 Portions of ICU4X may have been adapted from ICU4C and/or ICU4J.
-ICU 1.8.1 to ICU 57.1 Â© 1995-2016 International Business Machines Corporation and others.
+ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation and others.
 
 ---- icu_properties_data 2.3.0 -- Unicode-3.0
 source: https://github.com/unicode-org/icu4x
@@ -4967,7 +5111,7 @@ UNICODE LICENSE V3
 
 COPYRIGHT AND PERMISSION NOTICE
 
-Copyright Â© 2020-2024 Unicode, Inc.
+Copyright © 2020-2024 Unicode, Inc.
 
 NOTICE TO USER: Carefully read the following legal agreement. BY
 DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR
@@ -5005,10 +5149,10 @@ authorization of the copyright holder.
 
 SPDX-License-Identifier: Unicode-3.0
 
-â€”
+—
 
 Portions of ICU4X may have been adapted from ICU4C and/or ICU4J.
-ICU 1.8.1 to ICU 57.1 Â© 1995-2016 International Business Machines Corporation and others.
+ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation and others.
 
 ---- icu_provider 2.3.1 -- Unicode-3.0
 source: https://github.com/unicode-org/icu4x
@@ -5018,7 +5162,7 @@ UNICODE LICENSE V3
 
 COPYRIGHT AND PERMISSION NOTICE
 
-Copyright Â© 2020-2024 Unicode, Inc.
+Copyright © 2020-2024 Unicode, Inc.
 
 NOTICE TO USER: Carefully read the following legal agreement. BY
 DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR
@@ -5056,10 +5200,10 @@ authorization of the copyright holder.
 
 SPDX-License-Identifier: Unicode-3.0
 
-â€”
+—
 
 Portions of ICU4X may have been adapted from ICU4C and/or ICU4J.
-ICU 1.8.1 to ICU 57.1 Â© 1995-2016 International Business Machines Corporation and others.
+ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation and others.
 
 ---- icu_provider 2.3.1 -- Unicode-3.0
 source: https://github.com/unicode-org/icu4x
@@ -5069,7 +5213,7 @@ UNICODE LICENSE V3
 
 COPYRIGHT AND PERMISSION NOTICE
 
-Copyright Â© 2020-2024 Unicode, Inc.
+Copyright © 2020-2024 Unicode, Inc.
 
 NOTICE TO USER: Carefully read the following legal agreement. BY
 DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR
@@ -5107,10 +5251,10 @@ authorization of the copyright holder.
 
 SPDX-License-Identifier: Unicode-3.0
 
-â€”
+—
 
 Portions of ICU4X may have been adapted from ICU4C and/or ICU4J.
-ICU 1.8.1 to ICU 57.1 Â© 1995-2016 International Business Machines Corporation and others.
+ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation and others.
 
 ---- idna 1.1.0 -- MIT OR Apache-2.0
 source: https://github.com/servo/rust-url/
@@ -6000,7 +6144,7 @@ UNICODE LICENSE V3
 
 COPYRIGHT AND PERMISSION NOTICE
 
-Copyright Â© 2020-2024 Unicode, Inc.
+Copyright © 2020-2024 Unicode, Inc.
 
 NOTICE TO USER: Carefully read the following legal agreement. BY
 DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR
@@ -6038,10 +6182,10 @@ authorization of the copyright holder.
 
 SPDX-License-Identifier: Unicode-3.0
 
-â€”
+—
 
 Portions of ICU4X may have been adapted from ICU4C and/or ICU4J.
-ICU 1.8.1 to ICU 57.1 Â© 1995-2016 International Business Machines Corporation and others.
+ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation and others.
 
 ---- lock_api 0.4.14 -- MIT OR Apache-2.0
 source: https://github.com/Amanieu/parking_lot
@@ -8442,7 +8586,7 @@ UNICODE LICENSE V3
 
 COPYRIGHT AND PERMISSION NOTICE
 
-Copyright Â© 2020-2024 Unicode, Inc.
+Copyright © 2020-2024 Unicode, Inc.
 
 NOTICE TO USER: Carefully read the following legal agreement. BY
 DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR
@@ -8480,10 +8624,10 @@ authorization of the copyright holder.
 
 SPDX-License-Identifier: Unicode-3.0
 
-â€”
+—
 
 Portions of ICU4X may have been adapted from ICU4C and/or ICU4J.
-ICU 1.8.1 to ICU 57.1 Â© 1995-2016 International Business Machines Corporation and others.
+ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation and others.
 
 ---- powerfmt 0.2.1 -- MIT OR Apache-2.0
 source: https://github.com/jhpratt/powerfmt
@@ -12586,7 +12730,7 @@ UNICODE LICENSE V3
 
 COPYRIGHT AND PERMISSION NOTICE
 
-Copyright Â© 2020-2024 Unicode, Inc.
+Copyright © 2020-2024 Unicode, Inc.
 
 NOTICE TO USER: Carefully read the following legal agreement. BY
 DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR
@@ -12624,10 +12768,10 @@ authorization of the copyright holder.
 
 SPDX-License-Identifier: Unicode-3.0
 
-â€”
+—
 
 Portions of ICU4X may have been adapted from ICU4C and/or ICU4J.
-ICU 1.8.1 to ICU 57.1 Â© 1995-2016 International Business Machines Corporation and others.
+ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation and others.
 
 ---- unicode-ident 1.0.27 -- (MIT OR Apache-2.0) AND Unicode-3.0
 source: https://github.com/dtolnay/unicode-ident
@@ -12840,7 +12984,7 @@ UNICODE LICENSE V3
 
 COPYRIGHT AND PERMISSION NOTICE
 
-Copyright Â© 1991-2023 Unicode, Inc.
+Copyright © 1991-2023 Unicode, Inc.
 
 NOTICE TO USER: Carefully read the following legal agreement. BY
 DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR
@@ -13632,16 +13776,54 @@ DEALINGS IN THE SOFTWARE.
 ---- webview2-com 0.39.1 -- MIT
 source: https://github.com/wravery/webview2-rs
 
-[no licence file shipped in this crate: licence taken from Cargo.toml]
-License (SPDX): MIT
-Authors (Cargo.toml): (none listed)
+[LICENSE, from the crate's repository; the published crate ships no licence file]
+MIT License
+
+Copyright (c) 2021 Bill Avery
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 ---- webview2-com-sys 0.39.1 -- MIT
 source: https://github.com/wravery/webview2-rs
 
-[no licence file shipped in this crate: licence taken from Cargo.toml]
-License (SPDX): MIT
-Authors (Cargo.toml): (none listed)
+[LICENSE, from the crate's repository; the published crate ships no licence file]
+MIT License
+
+Copyright (c) 2021 Bill Avery
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 ---- windows 0.62.2 -- MIT OR Apache-2.0
 source: https://github.com/microsoft/windows-rs
@@ -16857,7 +17039,7 @@ UNICODE LICENSE V3
 
 COPYRIGHT AND PERMISSION NOTICE
 
-Copyright Â© 2020-2024 Unicode, Inc.
+Copyright © 2020-2024 Unicode, Inc.
 
 NOTICE TO USER: Carefully read the following legal agreement. BY
 DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR
@@ -16895,10 +17077,10 @@ authorization of the copyright holder.
 
 SPDX-License-Identifier: Unicode-3.0
 
-â€”
+—
 
 Portions of ICU4X may have been adapted from ICU4C and/or ICU4J.
-ICU 1.8.1 to ICU 57.1 Â© 1995-2016 International Business Machines Corporation and others.
+ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation and others.
 
 ---- wry 0.57.0 -- Apache-2.0 OR MIT
 source: https://github.com/tauri-apps/wry
@@ -17159,7 +17341,7 @@ UNICODE LICENSE V3
 
 COPYRIGHT AND PERMISSION NOTICE
 
-Copyright Â© 2020-2024 Unicode, Inc.
+Copyright © 2020-2024 Unicode, Inc.
 
 NOTICE TO USER: Carefully read the following legal agreement. BY
 DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR
@@ -17197,10 +17379,10 @@ authorization of the copyright holder.
 
 SPDX-License-Identifier: Unicode-3.0
 
-â€”
+—
 
 Portions of ICU4X may have been adapted from ICU4C and/or ICU4J.
-ICU 1.8.1 to ICU 57.1 Â© 1995-2016 International Business Machines Corporation and others.
+ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation and others.
 
 ---- yoke 0.8.3 -- Unicode-3.0
 source: https://github.com/unicode-org/icu4x
@@ -17210,7 +17392,7 @@ UNICODE LICENSE V3
 
 COPYRIGHT AND PERMISSION NOTICE
 
-Copyright Â© 2020-2024 Unicode, Inc.
+Copyright © 2020-2024 Unicode, Inc.
 
 NOTICE TO USER: Carefully read the following legal agreement. BY
 DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR
@@ -17248,10 +17430,10 @@ authorization of the copyright holder.
 
 SPDX-License-Identifier: Unicode-3.0
 
-â€”
+—
 
 Portions of ICU4X may have been adapted from ICU4C and/or ICU4J.
-ICU 1.8.1 to ICU 57.1 Â© 1995-2016 International Business Machines Corporation and others.
+ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation and others.
 
 ---- zerofrom 0.1.8 -- Unicode-3.0
 source: https://github.com/unicode-org/icu4x
@@ -17261,7 +17443,7 @@ UNICODE LICENSE V3
 
 COPYRIGHT AND PERMISSION NOTICE
 
-Copyright Â© 2020-2024 Unicode, Inc.
+Copyright © 2020-2024 Unicode, Inc.
 
 NOTICE TO USER: Carefully read the following legal agreement. BY
 DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR
@@ -17299,10 +17481,10 @@ authorization of the copyright holder.
 
 SPDX-License-Identifier: Unicode-3.0
 
-â€”
+—
 
 Portions of ICU4X may have been adapted from ICU4C and/or ICU4J.
-ICU 1.8.1 to ICU 57.1 Â© 1995-2016 International Business Machines Corporation and others.
+ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation and others.
 
 ---- zerofrom 0.1.8 -- Unicode-3.0
 source: https://github.com/unicode-org/icu4x
@@ -17312,7 +17494,7 @@ UNICODE LICENSE V3
 
 COPYRIGHT AND PERMISSION NOTICE
 
-Copyright Â© 2020-2024 Unicode, Inc.
+Copyright © 2020-2024 Unicode, Inc.
 
 NOTICE TO USER: Carefully read the following legal agreement. BY
 DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR
@@ -17350,10 +17532,10 @@ authorization of the copyright holder.
 
 SPDX-License-Identifier: Unicode-3.0
 
-â€”
+—
 
 Portions of ICU4X may have been adapted from ICU4C and/or ICU4J.
-ICU 1.8.1 to ICU 57.1 Â© 1995-2016 International Business Machines Corporation and others.
+ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation and others.
 
 ---- zerotrie 0.2.5 -- Unicode-3.0
 source: https://github.com/unicode-org/icu4x
@@ -17363,7 +17545,7 @@ UNICODE LICENSE V3
 
 COPYRIGHT AND PERMISSION NOTICE
 
-Copyright Â© 2020-2024 Unicode, Inc.
+Copyright © 2020-2024 Unicode, Inc.
 
 NOTICE TO USER: Carefully read the following legal agreement. BY
 DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR
@@ -17401,10 +17583,10 @@ authorization of the copyright holder.
 
 SPDX-License-Identifier: Unicode-3.0
 
-â€”
+—
 
 Portions of ICU4X may have been adapted from ICU4C and/or ICU4J.
-ICU 1.8.1 to ICU 57.1 Â© 1995-2016 International Business Machines Corporation and others.
+ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation and others.
 
 ---- zerotrie 0.2.5 -- Unicode-3.0
 source: https://github.com/unicode-org/icu4x
@@ -17414,7 +17596,7 @@ UNICODE LICENSE V3
 
 COPYRIGHT AND PERMISSION NOTICE
 
-Copyright Â© 2020-2024 Unicode, Inc.
+Copyright © 2020-2024 Unicode, Inc.
 
 NOTICE TO USER: Carefully read the following legal agreement. BY
 DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR
@@ -17452,10 +17634,10 @@ authorization of the copyright holder.
 
 SPDX-License-Identifier: Unicode-3.0
 
-â€”
+—
 
 Portions of ICU4X may have been adapted from ICU4C and/or ICU4J.
-ICU 1.8.1 to ICU 57.1 Â© 1995-2016 International Business Machines Corporation and others.
+ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation and others.
 
 ---- zerovec 0.11.8 -- Unicode-3.0
 source: https://github.com/unicode-org/icu4x
@@ -17465,7 +17647,7 @@ UNICODE LICENSE V3
 
 COPYRIGHT AND PERMISSION NOTICE
 
-Copyright Â© 2020-2024 Unicode, Inc.
+Copyright © 2020-2024 Unicode, Inc.
 
 NOTICE TO USER: Carefully read the following legal agreement. BY
 DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR
@@ -17503,10 +17685,10 @@ authorization of the copyright holder.
 
 SPDX-License-Identifier: Unicode-3.0
 
-â€”
+—
 
 Portions of ICU4X may have been adapted from ICU4C and/or ICU4J.
-ICU 1.8.1 to ICU 57.1 Â© 1995-2016 International Business Machines Corporation and others.
+ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation and others.
 
 ---- zerovec 0.11.8 -- Unicode-3.0
 source: https://github.com/unicode-org/icu4x
@@ -17516,7 +17698,7 @@ UNICODE LICENSE V3
 
 COPYRIGHT AND PERMISSION NOTICE
 
-Copyright Â© 2020-2024 Unicode, Inc.
+Copyright © 2020-2024 Unicode, Inc.
 
 NOTICE TO USER: Carefully read the following legal agreement. BY
 DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR
@@ -17554,10 +17736,10 @@ authorization of the copyright holder.
 
 SPDX-License-Identifier: Unicode-3.0
 
-â€”
+—
 
 Portions of ICU4X may have been adapted from ICU4C and/or ICU4J.
-ICU 1.8.1 to ICU 57.1 Â© 1995-2016 International Business Machines Corporation and others.
+ICU 1.8.1 to ICU 57.1 © 1995-2016 International Business Machines Corporation and others.
 
 ---- zmij 1.0.23 -- MIT
 source: https://github.com/dtolnay/zmij
