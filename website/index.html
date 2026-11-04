@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Orrery: a fast, tiny 3D model viewer for FBX, glTF and GLB</title>
+  <meta name="description" content="Orrery opens FBX, glTF and GLB files the moment you double-click them: auto-framed, lit, with model stats and animation playback. One 3.6 MB Windows exe, no installer and no network access at all.">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#0d0c1f">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-ZmcG6xBRUx0qEOELcWbd/kyIoSAtbBapm5/hUu2zuOs='; style-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://api.github.com data: blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <link rel="canonical" href="https://orrery.renner.dev/">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="assets/orrery-icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="site.webmanifest">
+  <meta property="og:title" content="Orrery">
+  <meta property="og:description" content="Double-click a model, look at it. A fast, tiny, offline 3D model viewer for FBX, glTF and GLB on Windows.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://orrery.renner.dev/">
+  <meta property="og:image" content="https://orrery.renner.dev/assets/og.png">
+  <link rel="stylesheet" href="style.css">
+  <script type="importmap">{"imports":{"three":"./vendor/three.module.js","three/addons/":"./vendor/examples/jsm/"}}</script>
+  <script src="site.js" defer></script>
+  <script src="releases.js" defer></script>
+  <script type="module" src="demo.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <div class="night">
+    <div class="stars" aria-hidden="true"></div>
+    <header class="top">
+      <a class="brand" href="#top" aria-label="Orrery home">
+        <img src="assets/orrery-icon.svg" width="30" height="30" alt="">
+        <span>Orrery</span>
+      </a>
+      <nav aria-label="Sections">
+        <a href="#viewer">Viewer</a>
+        <a href="#animation">Animation</a>
+        <a href="#safety">Safety</a>
+        <a href="#download">Download</a>
+        <a class="nav-gh" href="https://github.com/rennerdo30/orrery">GitHub</a>
+      </nav>
+    </header>
+
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="kicker"><span class="pill" data-release="latest" data-field="pill">0.1.0</span> Free and open source, for Windows</p>
+        <h1 id="hero-title">Double&#8209;click a model. <em>Look at&nbsp;it.</em></h1>
+        <p class="lede">Orrery is a 3D model viewer for FBX, glTF and GLB that gets out of the way: the file opens framed, lit, measured and already playing its first animation. One small exe. No installer, no project, no network.</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="#download">Download Orrery</a>
+          <a class="btn btn-ghost" href="https://github.com/rennerdo30/orrery">View the source</a>
+        </div>
+        <ul class="facts" aria-label="At a glance">
+          <li><b>3.6 MB</b><span>one exe, three.js inside</span></li>
+          <li><b>1.2 MB</b><span>download, zipped</span></li>
+          <li><b>0</b><span>network requests, ever</span></li>
+        </ul>
+      </div>
+
+      <figure class="window" aria-labelledby="demo-caption">
+        <div class="titlebar" aria-hidden="true">
+          <img src="assets/orrery-icon.svg" width="16" height="16" alt="">
+          <span class="title" data-demo-title>Brass orrery (built in code) - Orrery</span>
+          <span class="wctl"><i></i><i></i><i></i></span>
+        </div>
+        <div class="viewport" id="viewport" tabindex="0" aria-label="Live 3D demo. Drag to orbit, right-drag to pan, scroll to zoom. Keys: R reset view, G grid, W wireframe, B background, Space play or pause.">
+          <div class="v-fallback" data-demo-fallback>
+            <img src="assets/orrery-icon.svg" width="120" height="120" alt="">
+            <p>The live demo needs WebGL, which this browser has turned off. Orrery itself renders with hardware acceleration through WebView2.</p>
+          </div>
+          <div class="panel v-info" data-demo-info hidden></div>
+          <div class="panel v-err" data-demo-err hidden></div>
+          <div class="v-help" aria-hidden="true">R reset &middot; G grid &middot; W wireframe &middot; B background &middot; Space play/pause</div>
+          <div class="panel v-ctl" data-demo-ctl hidden>
+            <button type="button" data-demo-play title="Play / pause (Space)" aria-label="Pause">&#10074;&#10074;</button>
+            <input type="range" data-demo-scrub min="0" max="1" step="0.001" value="0" aria-label="Animation time">
+            <span class="v-time" data-demo-time>0.00 / 0.00 s</span>
+            <select data-demo-clips title="Animation clip" aria-label="Animation clip"></select>
+            <select data-demo-speed title="Speed" aria-label="Playback speed"><option value="0.25">0.25x</option><option value="0.5">0.5x</option><option value="1" selected>1x</option><option value="1.5">1.5x</option><option value="2">2x</option></select>
+            <label title="Loop"><input type="checkbox" data-demo-loop checked> loop</label>
+          </div>
+          <div class="v-loading" data-demo-loading hidden>
+            <div class="v-logo"><div class="v-ring"></div><img src="assets/orrery-icon.svg" alt=""></div>
+            <div class="v-lname" data-demo-lname></div>
+          </div>
+          <div class="v-drop" data-demo-drop hidden><span>Drop to open it here</span></div>
+        </div>
+        <figcaption id="demo-caption">
+          <span><b>Live:</b> drag to orbit, scroll to zoom, click and press <kbd>W</kbd> for wireframe. The model is built in code for this page and rendered by the same three.js version Orrery ships.</span>
+          <span class="own">
+            <label class="btn btn-small" for="demo-file">Open your own model&hellip;</label>
+            <input id="demo-file" type="file" accept=".glb,.gltf,.fbx,.bin,.png,.jpg,.jpeg,.tga,.webp" multiple hidden data-demo-file>
+            <button type="button" class="btn btn-small" data-demo-reset hidden>Back to the orrery</button>
+            <span class="own-note">or drop a .glb, .gltf or .fbx on the window, with its textures. It never leaves your browser.</span>
+          </span>
+        </figcaption>
+      </figure>
+    </section>
+  </div>
+
+  <main id="main">
+    <section class="band" id="viewer" aria-labelledby="viewer-title">
+      <div class="split">
+        <div class="prose">
+          <h2 id="viewer-title">Everything you check first, before you ask</h2>
+          <p>Open a file and Orrery does the five things you would do by hand: it frames the whole model, lights it with a studio environment, counts what is inside, finds its textures and starts the first animation.</p>
+          <p>The overlay in the corner answers the usual questions about an asset you just downloaded or exported: how heavy it is, whether its textures made it, how big it is in its own units, and which clips it carries. When something is wrong, a banner says what, and the mesh is still shown.</p>
+          <p>Drag another file onto the window to switch. Hold <kbd>Shift</kbd> while dropping to add its animations instead.</p>
+        </div>
+        <div class="ledger" role="group" aria-labelledby="overlay-title">
+          <p class="ledger-title" id="overlay-title">The overlay, line by line</p>
+          <dl class="overlay-key">
+            <div><dt>Triangles</dt><dd>Counted from the real index buffers, every mesh and skinned mesh.</dd></div>
+            <div><dt>Meshes, Materials</dt><dd>Draw calls at a glance; shared materials are counted once.</dd></div>
+            <div><dt>Textures</dt><dd>How many loaded and how many are missing, with the missing file names listed.</dd></div>
+            <div><dt>Size</dt><dd>The bounding box in the file's own units, so a centimetre FBX gives itself away.</dd></div>
+            <div><dt>Animations</dt><dd>Every clip with its length.</dd></div>
+          </dl>
+          <ul class="keys" aria-label="Keyboard shortcuts">
+            <li><kbd>R</kbd> Reset view</li>
+            <li><kbd>G</kbd> Grid</li>
+            <li><kbd>W</kbd> Wireframe</li>
+            <li><kbd>B</kbd> Dark or light background</li>
+            <li><kbd>Space</kbd> Play or pause</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="textures" aria-labelledby="textures-title">
+      <h2 id="textures-title">Textures, found where the exporter left them</h2>
+      <p class="intro">FBX files remember texture paths from the machine that made them: absolute paths on someone else's drive, backslashes, <code>..</code> hops, a PSD where you have a TGA. Orrery tries the reasonable places in order and stops at the first file that exists.</p>
+      <ol class="search">
+        <li><span class="step">1</span><div><h3>Inside the file</h3><p>Embedded images in GLB and FBX.</p></div></li>
+        <li><span class="step">2</span><div><h3>Next to the model</h3><p>Paths relative to the model, including backslashes and <code>..</code>.</p></div></li>
+        <li><span class="step">3</span><div><h3>Where the FBX says</h3><p>The exact absolute path written in the file, if it is an image.</p></div></li>
+        <li><span class="step">4</span><div><h3>By name, nearby</h3><p>The same file name, or the same name with another image extension, in the model's folder tree (5 levels) and its parent's (4 levels).</p></div></li>
+        <li class="miss"><span class="step">&times;</span><div><h3>Still missing</h3><p>Listed by name in a banner. The mesh renders anyway.</p></div></li>
+      </ol>
+      <p class="aside">PNG, JPEG, TGA, BMP, WebP, GIF and KTX2 images are read. PSD cannot be decoded, so a TGA or PNG with the same name is used when one exists.</p>
+    </section>
+
+    <section class="band" id="animation" aria-labelledby="animation-title">
+      <div class="split split-rev">
+        <div class="bones" role="group" aria-labelledby="bones-title">
+          <p class="ledger-title" id="bones-title">Bone names, the way Orrery compares them</p>
+          <table>
+            <thead><tr><th scope="col">In the clip file</th><th scope="col">Compared as</th><th scope="col">In your model</th></tr></thead>
+            <tbody>
+              <tr><td><code>mixamorig:LeftArm</code></td><td class="key">leftarm</td><td><code>LeftArm</code></td></tr>
+              <tr><td><code>Armature|Left_Fore_Arm</code></td><td class="key">leftforearm</td><td><code>left forearm</code></td></tr>
+              <tr><td><code>Bip001 Spine1</code></td><td class="key">spine1</td><td><code>Spine1</code></td></tr>
+              <tr class="drop"><td><code>Tail_01</code></td><td class="key">tail01</td><td>not in the model, dropped</td></tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td><label class="sr" for="bone-in">Try a bone name</label><input id="bone-in" type="text" value="mixamorig:RightHandThumb1" spellcheck="false" autocomplete="off" data-bone-in></td>
+                <td class="key" data-bone-out aria-live="polite">righthandthumb1</td>
+                <td class="try">type a name to try it</td>
+              </tr>
+            </tfoot>
+          </table>
+          <p class="ledger-foot">Exact names win first. Case, spaces, underscores and dots are ignored, as are namespaces like <code>Armature|</code> and prefixes like <code>mixamorig</code> or <code>Bip001</code>.</p>
+        </div>
+        <div class="prose">
+          <h2 id="animation-title">Play it, scrub it, borrow clips</h2>
+          <p>The first clip plays as soon as the model appears. A control bar gives you play and pause, a timeline scrubber, speed from 0.25x to 2x, looping, a clip list and <em>lock root</em>, which keeps a walk cycle walking on the spot.</p>
+          <p>Have the character in one file and the motions in another? Press <em>Add animations</em> or <kbd>Shift</kbd>-drop the second file. Orrery binds its tracks to your model's bones by name, rescales positions by the median bone-length ratio (FBX centimetres onto metres) and applies them relative to the rest pose. It then tells you how it went, for example <q>matched 52/65 bones</q>, and warns when too few matched.</p>
+          <p class="aside">This is name binding, not a full retarget: rigs with different naming schemes do not match.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="safety" aria-labelledby="safety-title">
+      <h2 id="safety-title">Reads files. Never the network.</h2>
+      <p class="intro">A model from the internet is a file from a stranger. Orrery treats it that way: the viewer can read the model you opened and the images and buffers it needs, nothing else, and it has no way to reach the network at all.</p>
+      <div class="gate">
+        <div class="gate-col">
+          <h3>Served to the viewer</h3>
+          <ul class="ok">
+            <li>The model that is open</li>
+            <li>Images: png, jpg, tga, bmp, webp, gif, ktx2</li>
+            <li>glTF <code>.bin</code> buffers</li>
+            <li>Only inside the model's folder or its parent, after links and junctions are resolved</li>
+            <li>One exception: an image whose exact absolute path is written in the model</li>
+          </ul>
+        </div>
+        <div class="gate-col">
+          <h3>Refused</h3>
+          <ul class="no">
+            <li>Any other file type, other models, <code>../../</code> escapes</li>
+            <li>UNC and drive-relative paths</li>
+            <li><code>http(s)</code>, <code>ftp</code>, <code>ws</code> and every other remote URL in a model, reported as <q>remote resource blocked</q></li>
+            <li>Navigation away from the viewer and new windows</li>
+          </ul>
+        </div>
+      </div>
+      <p class="aside">The page inside Orrery runs under a strict Content-Security-Policy (<code>'self'</code>, <code>data:</code>, <code>blob:</code> only). The file rules are covered by unit tests in <a href="https://github.com/rennerdo30/orrery/blob/main/src/resolve.rs"><code>src/resolve.rs</code></a>. This page follows the same idea: the demo above reads only the files you hand it, in your browser.</p>
+    </section>
+
+    <section class="band trio" aria-label="Footprint, Windows integration and limits">
+      <article>
+        <h2>Small enough to keep around</h2>
+        <table class="meter">
+          <tbody>
+            <tr><th scope="row">The exe</th><td><b>3.6 MB</b>, three.js embedded</td></tr>
+            <tr><th scope="row">The download</th><td><b>1.2 MB</b> zip</td></tr>
+            <tr><th scope="row">Installer</th><td>none, unzip and run</td></tr>
+            <tr><th scope="row">Runtime</th><td>WebView2, already on Windows 10 and 11</td></tr>
+          </tbody>
+        </table>
+        <p>Built in Rust on WebView2 with three.js r186. The window is dark from the first frame, and a loading screen with the file name covers long parses.</p>
+      </article>
+      <article>
+        <h2>Lives in Explorer</h2>
+        <p><code>register.ps1</code> adds Orrery to the <em>Open with</em> list for <code>.fbx</code>, <code>.glb</code> and <code>.gltf</code>. It writes only under <code>HKCU\Software\Classes</code>, needs no admin rights, and <code>unregister.ps1</code> takes it out again.</p>
+        <p>Windows does not let programs make themselves the default, so you choose it once: right-click a model, <em>Open with</em>, <em>Choose another app</em>, Orrery, <em>Always</em>.</p>
+      </article>
+      <article>
+        <h2>What it does not do yet</h2>
+        <ul class="limits">
+          <li>FBX 7.x only; older files (6.1) fail with a message.</li>
+          <li>No Draco, Meshopt or KTX2 decoders, so glTF files using them will not load.</li>
+          <li>Parsing runs on the main thread; a very large FBX can take several seconds.</li>
+          <li>Windows only for now.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="band download" id="download" aria-labelledby="download-title">
+      <h2 id="download-title">Get Orrery</h2>
+      <div class="dl-grid">
+        <div class="dl">
+          <h3>Latest version</h3>
+          <p data-release="latest" data-field="found" hidden>Orrery <strong data-release="latest" data-field="version"></strong>, released <span data-release="latest" data-field="date"></span>. Windows 10 and 11, x64.</p>
+          <p class="cta">
+            <a class="btn btn-primary" data-release="latest" data-field="download" href="https://github.com/rennerdo30/orrery/releases/latest">Download the zip</a>
+            <a class="btn" data-release="latest" data-field="notes" href="https://github.com/rennerdo30/orrery/releases/latest">What's new</a>
+          </p>
+          <ol class="steps">
+            <li>Unzip it to a folder you will keep. The file association stores the exe's path.</li>
+            <li>Optional: right-click <code>register.ps1</code>, <em>Run with PowerShell</em>, to add Orrery to <em>Open with</em>.</li>
+            <li>Right-click a model, <em>Open with</em>, <em>Choose another app</em>, Orrery, <em>Always</em>.</li>
+          </ol>
+          <p class="dl-sub">The exe is not code-signed yet, so SmartScreen may warn on the first start: choose <em>More info</em>, then <em>Run anyway</em>. Each release lists the SHA-256 of its zip.</p>
+        </div>
+        <div class="dl">
+          <h3>Build from source</h3>
+          <p>Needs a Rust toolchain and the WebView2 runtime.</p>
+          <pre><code>git clone https://github.com/rennerdo30/orrery
+cd orrery
+cargo build --release</code></pre>
+          <p>The exe is <code>target\release\orrery.exe</code>. <code>cargo test --release</code> runs the unit tests.</p>
+          <p class="cta"><a class="btn" href="https://github.com/rennerdo30/orrery">Source code</a> <a class="btn" href="https://github.com/rennerdo30/orrery/releases">All releases</a></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p><img src="assets/orrery-icon.svg" width="20" height="20" alt=""> Orrery, a project by <a href="https://github.com/rennerdo30">rennerdo30</a>. MIT licensed; three.js (MIT) is bundled.</p>
+    <p><a href="privacy.html">Privacy</a> <a href="https://github.com/rennerdo30/orrery">GitHub</a> <a href="mailto:support@renner.dev">support@renner.dev</a></p>
+  </footer>
+</body>
+</html>

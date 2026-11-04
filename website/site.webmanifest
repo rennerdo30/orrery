@@ -1,0 +1,8 @@
+{
+  "name": "Orrery",
+  "short_name": "Orrery",
+  "icons": [{ "src": "assets/orrery-icon.svg", "type": "image/svg+xml", "sizes": "any" }],
+  "theme_color": "#0d0c1f",
+  "background_color": "#0d0c1f",
+  "display": "browser"
+}

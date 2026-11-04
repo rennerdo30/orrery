@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Privacy: Orrery</title>
+  <meta name="description" content="Privacy information for the Orrery website and app.">
+  <meta name="color-scheme" content="light dark">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self'; style-src 'self'; script-src 'none'; base-uri 'none'; form-action 'none'">
+  <link rel="canonical" href="https://orrery.renner.dev/privacy.html">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="assets/orrery-icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top plain-top">
+    <a class="brand" href="./" aria-label="Orrery home">
+      <img src="assets/orrery-icon.svg" width="28" height="28" alt="">
+      <span>Orrery</span>
+    </a>
+  </header>
+  <main class="doc">
+    <h1>Privacy</h1>
+    <h2>This website</h2>
+    <p>This site has no cookies, no analytics, no trackers and no third-party fonts or scripts. It is hosted on GitHub Pages; GitHub logs the IP addresses of visitors for security and operation. To show the newest version, the download section asks GitHub's public API (api.github.com) for the list of releases, directly from your browser; GitHub receives your IP address for that request. See GitHub's privacy statement for details.</p>
+    <p>If you open your own model in the live demo, it is read by your browser on your device. It is not uploaded anywhere, and the page blocks any web address a model refers to.</p>
+    <h2>The app</h2>
+    <p>Orrery runs entirely on your PC and makes no network requests at all: no update check, no telemetry. It reads only the model you open and the images and buffers that model needs. The optional <code>register.ps1</code> writes file association entries under <code>HKCU\Software\Classes</code> and nothing else.</p>
+    <h2>Contact</h2>
+    <p>Questions: <a href="mailto:support@renner.dev">support@renner.dev</a></p>
+  </main>
+  <footer class="foot">
+    <p><a href="./">Back to Orrery</a></p>
+    <p><a href="https://github.com/rennerdo30/orrery">GitHub</a></p>
+  </footer>
+</body>
+</html>
