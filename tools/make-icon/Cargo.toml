@@ -5,4 +5,4 @@ edition = "2021"
 
 [dependencies]
 resvg = "0.45"
-ico = "0.4"
+ico = "0.6"
