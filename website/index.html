@@ -266,12 +266,13 @@
           <p class="dl-sub">The exe is not code-signed yet, so SmartScreen may warn on the first start: choose <em>More info</em>, then <em>Run anyway</em>. Each release lists the SHA-256 of its zip.</p>
         </div>
         <div class="dl">
-          <h3>Build from source</h3>
-          <p>Needs a Rust toolchain and the WebView2 runtime.</p>
+          <h3>Install with Cargo</h3>
+          <p>Builds Orrery on your machine from <a href="https://crates.io/crates/orrery-viewer">crates.io</a>. Needs Rust 1.95 or later with the MSVC toolchain.</p>
+          <pre><code>cargo install --locked orrery-viewer</code></pre>
+          <p>The crate is called <code>orrery-viewer</code> because <code>orrery</code> was taken; it installs the same <code>orrery.exe</code>, with no SmartScreen prompt since you built it. Or build from source:</p>
           <pre><code>git clone https://github.com/rennerdo30/orrery
 cd orrery
 cargo build --release</code></pre>
-          <p>The exe is <code>target\release\orrery.exe</code>. <code>cargo test --release</code> runs the unit tests.</p>
           <p class="cta"><a class="btn" href="https://github.com/rennerdo30/orrery">Source code</a> <a class="btn" href="https://github.com/rennerdo30/orrery/releases">All releases</a></p>
         </div>
       </div>

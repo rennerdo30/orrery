@@ -1,0 +1,57 @@
+name: ci
+
+# GitHub-hosted runners only (the repository is public). Orrery is Windows
+# only, so it builds and tests on windows-latest.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: test (windows)
+    runs-on: windows-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash
+    env:
+      CARGO_INCREMENTAL: "0"
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # rust-toolchain.toml pins the toolchain; this installs it.
+      - run: rustup show active-toolchain
+      - run: cargo fmt --all --check
+      - run: cargo clippy --all-targets --locked -- -D warnings
+      - run: cargo test --locked
+      # What would ship to crates.io: only the files in Cargo.toml `include`.
+      - name: Crate contents
+        run: |
+          set -euo pipefail
+          cargo package --locked --list > crate-files.txt
+          cat crate-files.txt
+          # cargo prints backslashes on Windows; match both separators.
+          if grep -E '^(website|docs|tools|scripts|\.github)[/\\]' crate-files.txt; then
+            echo "The crate would ship files outside the include list." >&2
+            exit 1
+          fi
+  deny:
+    name: cargo-deny
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: EmbarkStudios/cargo-deny-action@70f81531115945ba6eb6b941ec9d39d063438eb9 # v2.1.2
+        with:
+          command: check licenses advisories sources

@@ -1,0 +1,7 @@
+# Toolchain for local builds and CI: current stable on 2026-11-19 (Rust 1.100.0,
+# released 2026-11-12). The crate itself declares rust-version 1.95 (Cargo.toml),
+# so `cargo install` works on older toolchains too. Not shipped in the crate.
+[toolchain]
+channel = "1.100.0"
+profile = "minimal"
+components = ["clippy", "rustfmt"]

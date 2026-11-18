@@ -1,5 +1,9 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+// Orrery renders through WebView2 and has only been built and tested on Windows.
+#[cfg(not(windows))]
+compile_error!("Orrery runs on Windows only (it uses WebView2). Install it on Windows 10 or 11 with `cargo install --locked orrery-viewer`, or download the zip from https://github.com/rennerdo30/orrery/releases.");
+
 use std::borrow::Cow;
 mod resolve;
 use resolve::{is_model, resolve, Index, Kind};
@@ -45,7 +49,9 @@ fn embedded(path: &str) -> Option<(&'static str, &'static [u8])> {
             "loaders/FBXLoader.js" => (JS, v!("examples/jsm/loaders/FBXLoader.js")),
             "loaders/TGALoader.js" => (JS, v!("examples/jsm/loaders/TGALoader.js")),
             "controls/OrbitControls.js" => (JS, v!("examples/jsm/controls/OrbitControls.js")),
-            "environments/RoomEnvironment.js" => (JS, v!("examples/jsm/environments/RoomEnvironment.js")),
+            "environments/RoomEnvironment.js" => {
+                (JS, v!("examples/jsm/environments/RoomEnvironment.js"))
+            }
             "utils/BufferGeometryUtils.js" => (JS, v!("examples/jsm/utils/BufferGeometryUtils.js")),
             "utils/SkeletonUtils.js" => (JS, v!("examples/jsm/utils/SkeletonUtils.js")),
             "curves/NURBSCurve.js" => (JS, v!("examples/jsm/curves/NURBSCurve.js")),
@@ -84,8 +90,15 @@ fn dark_window_background(window: &tao::window::Window) {
 fn dark_window_background(_: &tao::window::Window) {}
 
 fn window_icon() -> Option<Icon> {
-    let dir = ico::IconDir::read(std::io::Cursor::new(&include_bytes!("../assets/orrery.ico")[..])).ok()?;
-    let entry = dir.entries().iter().find(|e| e.width() == 32).or(dir.entries().first())?;
+    let dir = ico::IconDir::read(std::io::Cursor::new(
+        &include_bytes!("../assets/orrery.ico")[..],
+    ))
+    .ok()?;
+    let entry = dir
+        .entries()
+        .iter()
+        .find(|e| e.width() == 32)
+        .or(dir.entries().first())?;
     let img = entry.decode().ok()?;
     Icon::from_rgba(img.rgba_data().to_vec(), img.width(), img.height()).ok()
 }
@@ -140,7 +153,10 @@ fn main() {
         .and_then(|f| f.file_name())
         .map(|n| n.to_string_lossy().into_owned());
     let opened: Arc<Mutex<Option<String>>> = Arc::new(Mutex::new(initial.clone()));
-    let lib_name = lib.as_ref().and_then(|f| f.file_name()).map(|n| n.to_string_lossy().into_owned());
+    let lib_name = lib
+        .as_ref()
+        .and_then(|f| f.file_name())
+        .map(|n| n.to_string_lossy().into_owned());
 
     let event_loop = EventLoopBuilder::<UserEvent>::with_user_event().build();
     let proxy = event_loop.create_proxy();
@@ -236,7 +252,8 @@ fn main() {
                     if let Some(parent) = p.parent() {
                         *dir_ipc.lock().unwrap() = parent.to_path_buf();
                     }
-                    *opened_ipc.lock().unwrap() = p.file_name().map(|n| n.to_string_lossy().into_owned());
+                    *opened_ipc.lock().unwrap() =
+                        p.file_name().map(|n| n.to_string_lossy().into_owned());
                     let _ = proxy_ipc.send_event(UserEvent::Open(p));
                 }
             } else if body == "ready" {
@@ -244,7 +261,11 @@ fn main() {
             } else if let Some(t) = body.strip_prefix("log:") {
                 if let Some(path) = &log {
                     use std::io::Write;
-                    if let Ok(mut f) = std::fs::OpenOptions::new().create(true).append(true).open(path) {
+                    if let Ok(mut f) = std::fs::OpenOptions::new()
+                        .create(true)
+                        .append(true)
+                        .open(path)
+                    {
                         let _ = writeln!(f, "{}", t);
                     }
                 }
@@ -259,7 +280,9 @@ fn main() {
             }
         })
         // The page never navigates away and never opens windows (no network, no pop-ups).
-        .with_navigation_handler(|url| url.starts_with("http://app.localhost/") || url.starts_with("app://localhost/"))
+        .with_navigation_handler(|url| {
+            url.starts_with("http://app.localhost/") || url.starts_with("app://localhost/")
+        })
         .with_new_window_req_handler(|_url, _features| wry::NewWindowResponse::Deny)
         .with_url("http://app.localhost/index.html")
         .build(&window)
@@ -267,7 +290,11 @@ fn main() {
 
     if let Some(path) = &log_t {
         use std::io::Write;
-        if let Ok(mut f) = std::fs::OpenOptions::new().create(true).append(true).open(path) {
+        if let Ok(mut f) = std::fs::OpenOptions::new()
+            .create(true)
+            .append(true)
+            .open(path)
+        {
             let _ = writeln!(f, "TIME webview built at {} ms", t0.elapsed().as_millis());
         }
     }
@@ -304,14 +331,30 @@ fn main() {
                     window.set_visible(true);
                     if let Some(path) = &log_t {
                         use std::io::Write;
-                        if let Ok(mut f) = std::fs::OpenOptions::new().create(true).append(true).open(path) {
-                            let _ = writeln!(f, "TIME shown ({}) at {} ms", if ms == u128::MAX { "timeout".to_string() } else { format!("page ready {} ms", ms) }, t0.elapsed().as_millis());
+                        if let Ok(mut f) = std::fs::OpenOptions::new()
+                            .create(true)
+                            .append(true)
+                            .open(path)
+                        {
+                            let _ = writeln!(
+                                f,
+                                "TIME shown ({}) at {} ms",
+                                if ms == u128::MAX {
+                                    "timeout".to_string()
+                                } else {
+                                    format!("page ready {} ms", ms)
+                                },
+                                t0.elapsed().as_millis()
+                            );
                         }
                     }
                 }
             }
             Event::UserEvent(UserEvent::Quit) => *flow = ControlFlow::Exit,
-            Event::WindowEvent { event: WindowEvent::CloseRequested, .. } => *flow = ControlFlow::Exit,
+            Event::WindowEvent {
+                event: WindowEvent::CloseRequested,
+                ..
+            } => *flow = ControlFlow::Exit,
             _ => {}
         }
     });

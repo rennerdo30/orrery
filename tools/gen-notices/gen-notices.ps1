@@ -13,7 +13,7 @@ try {
   $tree = cargo tree --locked -e normal --target $target --prefix none --format '{p}' | Sort-Object -Unique
   $linked = foreach ($l in $tree) {
     if ($l -match '\(proc-macro\)') { continue }
-    if ($l -match '^(\S+) v(\S+)') { if ($Matches[1] -ne 'orrery') { [pscustomobject]@{ Name = $Matches[1]; Version = $Matches[2] } } }
+    if ($l -match '^(\S+) v(\S+)') { if ($Matches[1] -ne 'orrery-viewer') { [pscustomobject]@{ Name = $Matches[1]; Version = $Matches[2] } } }
   }
   $sb = New-Object System.Text.StringBuilder
   [void]$sb.Append((Get-Content (Join-Path $PSScriptRoot 'header.txt') -Raw -Encoding UTF8))

@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Published on crates.io as `orrery-viewer` (`cargo install --locked orrery-viewer` installs `orrery.exe`); the name `orrery` was already taken there
+- Building on anything but Windows stops with a clear message (Orrery uses WebView2)
+- Release pipeline: `scripts/release.ps1`, a tag-triggered `release.yml` that builds the zip on GitHub, adds build provenance and `SHA256SUMS.txt` and prepares a draft release, a manual `publish-crate.yml`, `ci.yml` (fmt, clippy, tests, cargo-deny) and `docs/RELEASING.md`
 - Fixed: a glTF with a missing external image also listed the internal placeholder image ("png;base64,...") as a missing texture; the placeholder PNG had a broken checksum and failed to decode
 - Control bar stays on one line at the default window size (it was limited to half the window width and wrapped its labels); the key help moves to the top while the bar is shown, and the error banner sits above the bar
 - README and website show real captures of the app (docs/SCREENSHOTS.md, scripts/capture-window.ps1)

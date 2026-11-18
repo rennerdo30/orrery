@@ -1,10 +1,39 @@
 [package]
-name = "orrery"
+# The crates.io name `orrery` belongs to an unrelated project, so the package is
+# `orrery-viewer`; the program it installs is still `orrery` (see [[bin]]).
+name = "orrery-viewer"
 version = "0.1.0"
 edition = "2021"
-description = "Orrery - a fast, tiny 3D model viewer for FBX, glTF and GLB"
+# Oldest toolchain the crate was built with (cargo check, 2026-11-19); the
+# dependencies themselves need 1.88.
+rust-version = "1.95"
+description = "A fast, tiny 3D model viewer for FBX, glTF and GLB on Windows: double-click a model and look at it. Offline, read-only, no network."
 license = "MIT"
+repository = "https://github.com/rennerdo30/orrery"
+homepage = "https://orrery.renner.dev"
+readme = "README.md"
+keywords = ["3d", "viewer", "gltf", "fbx", "glb"]
+categories = ["graphics", "rendering", "visualization", "command-line-utilities"]
 build = "build.rs"
+# Ship only what builds and documents the program: no website, docs images,
+# tools, scripts or CI files. assets/ is embedded with include_bytes!.
+include = [
+    "/src/**",
+    "/build.rs",
+    "/assets/**",
+    "/Cargo.toml",
+    "/Cargo.lock",
+    "/LICENSE",
+    "/THIRD_PARTY_NOTICES",
+    "/README.md",
+    "/CHANGELOG.md",
+    "/register.ps1",
+    "/unregister.ps1",
+]
+
+[[bin]]
+name = "orrery"
+path = "src/main.rs"
 
 [dependencies]
 wry = "0.57"
@@ -19,6 +48,9 @@ windows-sys = { version = "0.61", features = ["Win32_Foundation", "Win32_Graphic
 
 [build-dependencies]
 embed-resource = "3"
+
+[package.metadata.docs.rs]
+targets = ["x86_64-pc-windows-msvc"]
 
 [profile.release]
 opt-level = 3

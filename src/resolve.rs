@@ -19,17 +19,29 @@ pub enum Kind {
 }
 
 pub fn ext_lower(p: &Path) -> Option<String> {
-    p.extension().and_then(|e| e.to_str()).map(|e| e.to_ascii_lowercase())
+    p.extension()
+        .and_then(|e| e.to_str())
+        .map(|e| e.to_ascii_lowercase())
 }
 
 pub fn is_model(p: &Path) -> bool {
-    matches!(ext_lower(p).as_deref(), Some("fbx") | Some("glb") | Some("gltf"))
+    matches!(
+        ext_lower(p).as_deref(),
+        Some("fbx") | Some("glb") | Some("gltf")
+    )
 }
 
 pub fn is_image(p: &Path) -> bool {
     matches!(
         ext_lower(p).as_deref(),
-        Some("png") | Some("jpg") | Some("jpeg") | Some("tga") | Some("bmp") | Some("webp") | Some("gif") | Some("ktx2")
+        Some("png")
+            | Some("jpg")
+            | Some("jpeg")
+            | Some("tga")
+            | Some("bmp")
+            | Some("webp")
+            | Some("gif")
+            | Some("ktx2")
     )
 }
 
@@ -50,7 +62,9 @@ fn walk(dir: &Path, depth: u32, budget: &mut u32, out: &mut Vec<PathBuf>) {
     if depth == 0 || *budget == 0 {
         return;
     }
-    let Ok(rd) = std::fs::read_dir(dir) else { return };
+    let Ok(rd) = std::fs::read_dir(dir) else {
+        return;
+    };
     for e in rd.flatten() {
         if *budget == 0 {
             return;
@@ -77,7 +91,10 @@ impl Index {
                 walk(parent, 4, &mut budget, &mut files);
             }
         }
-        let mut idx = Index { for_dir: dir.to_path_buf(), ..Default::default() };
+        let mut idx = Index {
+            for_dir: dir.to_path_buf(),
+            ..Default::default()
+        };
         for f in files {
             let name = f.file_name().unwrap().to_string_lossy().to_lowercase();
             let stem = f.file_stem().unwrap().to_string_lossy().to_lowercase();
@@ -109,7 +126,13 @@ fn is_drive_absolute(s: &str) -> bool {
 
 /// Resolves a path requested by the page; returns the canonical file to serve, or None.
 /// `opened` is the file name of the model that is open (the only model-type file served).
-pub fn resolve(dir: &Path, opened: Option<&str>, req: &str, index: &Mutex<Index>, kind: Kind) -> Option<PathBuf> {
+pub fn resolve(
+    dir: &Path,
+    opened: Option<&str>,
+    req: &str,
+    index: &Mutex<Index>,
+    kind: Kind,
+) -> Option<PathBuf> {
     if req.contains('\0') {
         return None;
     }
@@ -142,7 +165,9 @@ pub fn resolve(dir: &Path, opened: Option<&str>, req: &str, index: &Mutex<Index>
                 || is_sidecar(c)
                 || (is_model(c)
                     && opened.is_some_and(|o| {
-                        c.file_name().is_some_and(|n| n.to_string_lossy().eq_ignore_ascii_case(o)) && c.parent() == Some(root_dir.as_path())
+                        c.file_name()
+                            .is_some_and(|n| n.to_string_lossy().eq_ignore_ascii_case(o))
+                            && c.parent() == Some(root_dir.as_path())
                     }))
         }
     };
@@ -158,7 +183,11 @@ pub fn resolve(dir: &Path, opened: Option<&str>, req: &str, index: &Mutex<Index>
             }
         }
     } else {
-        if kind == Kind::Model && Path::new(&norm).components().any(|c| matches!(c, Component::ParentDir)) {
+        if kind == Kind::Model
+            && Path::new(&norm)
+                .components()
+                .any(|c| matches!(c, Component::ParentDir))
+        {
             return None;
         }
         if let Some(c) = canon(&root_dir.join(norm.replace('/', std::path::MAIN_SEPARATOR_STR))) {
@@ -170,7 +199,11 @@ pub fn resolve(dir: &Path, opened: Option<&str>, req: &str, index: &Mutex<Index>
 
     // fallback: same file name (or stem with another image extension) near the model
     let base = norm.rsplit('/').next().unwrap_or("");
-    let texture_like = is_image(Path::new(base)) || matches!(ext_lower(Path::new(base)).as_deref(), Some("psd") | Some("tif") | Some("tiff") | Some("dds"));
+    let texture_like = is_image(Path::new(base))
+        || matches!(
+            ext_lower(Path::new(base)).as_deref(),
+            Some("psd") | Some("tif") | Some("tiff") | Some("dds")
+        );
     if base.is_empty() || !texture_like {
         return None;
     }
@@ -196,7 +229,8 @@ mod tests {
 
     impl Fixture {
         fn new(tag: &str) -> Fixture {
-            let base = std::env::temp_dir().join(format!("orrery-test-{}-{}", tag, std::process::id()));
+            let base =
+                std::env::temp_dir().join(format!("orrery-test-{}-{}", tag, std::process::id()));
             let _ = fs::remove_dir_all(&base);
             let dir = base.join("proj").join("models");
             let outside = base.join("outside");
@@ -214,7 +248,13 @@ mod tests {
             Fixture { base, dir, outside }
         }
         fn get(&self, req: &str, kind: Kind) -> Option<PathBuf> {
-            resolve(&self.dir, Some("hero.fbx"), req, &Mutex::new(Index::default()), kind)
+            resolve(
+                &self.dir,
+                Some("hero.fbx"),
+                req,
+                &Mutex::new(Index::default()),
+                kind,
+            )
         }
     }
 
@@ -239,7 +279,10 @@ mod tests {
         let f = Fixture::new("ext");
         assert!(f.get("notes.txt", Kind::Model).is_none());
         assert!(f.get("notes.txt", Kind::Texture).is_none());
-        assert!(f.get("other.fbx", Kind::Model).is_none(), "only the opened model is served");
+        assert!(
+            f.get("other.fbx", Kind::Model).is_none(),
+            "only the opened model is served"
+        );
         assert!(f.get("data.bin", Kind::Texture).is_none());
     }
 
@@ -247,7 +290,9 @@ mod tests {
     fn rejects_parent_escapes() {
         let f = Fixture::new("dotdot");
         assert!(f.get("../../outside/secret.png", Kind::Texture).is_none());
-        assert!(f.get("..\\..\\outside\\secret.png", Kind::Texture).is_none());
+        assert!(f
+            .get("..\\..\\outside\\secret.png", Kind::Texture)
+            .is_none());
         assert!(f.get("../textures/b.png", Kind::Model).is_none());
         assert!(f.get("../../outside/secret.txt", Kind::Texture).is_none());
     }
@@ -259,7 +304,9 @@ mod tests {
         assert!(f.get("C:hero.fbx", Kind::Model).is_none());
         assert!(f.get("//server/share/x.png", Kind::Texture).is_none());
         assert!(f.get("\\\\server\\share\\x.png", Kind::Texture).is_none());
-        assert!(f.get("\\\\?\\C:\\Windows\\win.ini", Kind::Texture).is_none());
+        assert!(f
+            .get("\\\\?\\C:\\Windows\\win.ini", Kind::Texture)
+            .is_none());
         assert!(f.get("/a.png", Kind::Texture).is_none());
         assert!(f.get("a.png:stream", Kind::Texture).is_none());
     }
@@ -269,9 +316,15 @@ mod tests {
         let f = Fixture::new("abs");
         let png = f.outside.join("secret.png");
         let txt = f.outside.join("secret.txt");
-        assert!(f.get(&png.to_string_lossy(), Kind::Texture).is_some(), "exact absolute image path is allowed");
+        assert!(
+            f.get(&png.to_string_lossy(), Kind::Texture).is_some(),
+            "exact absolute image path is allowed"
+        );
         assert!(f.get(&txt.to_string_lossy(), Kind::Texture).is_none());
-        assert!(f.get(&png.to_string_lossy(), Kind::Model).is_none(), "/m/ never takes absolute paths");
+        assert!(
+            f.get(&png.to_string_lossy(), Kind::Model).is_none(),
+            "/m/ never takes absolute paths"
+        );
     }
 
     #[test]
@@ -300,8 +353,14 @@ mod tests {
     #[test]
     fn fallback_finds_texture_by_name_or_stem() {
         let f = Fixture::new("fallback");
-        assert!(f.get("D:/old/place/b.png", Kind::Texture).is_some(), "same name in the parent folder tree");
-        assert!(f.get("x/y/b.psd", Kind::Texture).is_some(), "same stem, other extension");
+        assert!(
+            f.get("D:/old/place/b.png", Kind::Texture).is_some(),
+            "same name in the parent folder tree"
+        );
+        assert!(
+            f.get("x/y/b.psd", Kind::Texture).is_some(),
+            "same stem, other extension"
+        );
         assert!(f.get("missing.png", Kind::Texture).is_none());
     }
 }

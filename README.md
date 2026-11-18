@@ -67,6 +67,14 @@ It treats every model as a file from a stranger: the viewer reads only the model
 
 The exe is not code-signed, so Windows SmartScreen may warn on the first run: choose *More info*, then *Run anyway*. The WebView2 runtime is required; it is preinstalled on Windows 10 and 11.
 
+**Or with Cargo** (Windows, Rust 1.95 or later with the MSVC toolchain):
+
+```
+cargo install --locked orrery-viewer
+```
+
+The crate is called `orrery-viewer` because `orrery` was already taken on crates.io; it installs the same `orrery.exe`. Then run `register.ps1 -Exe "$env:USERPROFILE\.cargo\bin\orrery.exe"` from this repository if you want the *Open with* entries.
+
 ## How it works
 
 ```
@@ -89,7 +97,7 @@ It never touches the network: the page has a strict Content-Security-Policy (`'s
 
 ## Build from source
 
-Requires a Rust toolchain and the WebView2 runtime (present on Windows 11).
+Requires Rust 1.95 or later (`rust-toolchain.toml` pins the toolchain CI uses) and the WebView2 runtime (present on Windows 10 and 11). Releases are cut with `scripts/release.ps1`; see [docs/RELEASING.md](docs/RELEASING.md).
 
 ```
 cargo build --release

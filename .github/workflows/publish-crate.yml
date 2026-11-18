@@ -1,0 +1,75 @@
+name: publish-crate
+
+# Uploads the crate `orrery-viewer` to crates.io. Manual only: the owner starts
+# it from the Actions tab, after the GitHub release for the same tag is
+# published. Needs the ENVIRONMENT secret CARGO_REGISTRY_TOKEN in the
+# "crates-io" environment (not a repository secret; docs/RELEASING.md), which
+# requires the owner's approval. The token is in the env of the last step only:
+# the package check compiles the crate (build.rs, dependencies' build scripts)
+# in a separate step WITHOUT the token, and the publish step runs with
+# --no-verify so no compiled code ever runs next to the token.
+# Runs on Windows because Orrery only builds there.
+# Pattern taken from crabfarm (publish-crate.yml there, 2026-11-19).
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Version tag to publish (vX.Y.Z)'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-crate
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    environment: crates-io
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: refs/tags/${{ inputs.tag }}
+          fetch-depth: 0
+          persist-credentials: false
+      # Same rule as release.yml: only a commit that is on main is published.
+      - name: Tag commit is an ancestor of origin/main
+        env:
+          TAG: ${{ inputs.tag }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main:refs/remotes/origin/main
+          sha=$(git rev-parse HEAD)
+          if ! git merge-base --is-ancestor "$sha" refs/remotes/origin/main; then
+            echo "Tag $TAG (${sha:0:7}) is not on main; refusing to publish it." >&2
+            exit 1
+          fi
+      - name: Tag is a stable version that matches the crate
+        env:
+          TAG: ${{ inputs.tag }}
+        run: |
+          set -euo pipefail
+          case "$TAG" in v[0-9]*) ;; *) echo "Not a version tag: $TAG" >&2; exit 1 ;; esac
+          case "$TAG" in *-*) echo "Prereleases are not published to crates.io: $TAG" >&2; exit 1 ;; esac
+          version=$(sed -n 's/^version = "\(.*\)"$/\1/p' Cargo.toml | head -n1)
+          if [ "$TAG" != "v$version" ]; then
+            echo "Tag $TAG does not match Cargo.toml version $version" >&2
+            exit 1
+          fi
+      # rust-toolchain.toml pins the toolchain; this installs it.
+      - run: rustup show active-toolchain
+      # Builds the packaged crate to verify it. No secret in this step's env.
+      - name: Package and verify (no token, no upload)
+        run: cargo package --locked
+      # Verified above; --no-verify keeps the token away from compiled code.
+      - name: Publish to crates.io
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: cargo publish --locked --no-verify
