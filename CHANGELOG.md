@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.1.1
+
 - Published on crates.io as `orrery-viewer` (`cargo install --locked orrery-viewer` installs `orrery.exe`); the name `orrery` was already taken there
 - Building on anything but Windows stops with a clear message (Orrery uses WebView2)
 - Release pipeline: `scripts/release.ps1`, a tag-triggered `release.yml` that builds the zip on GitHub, adds build provenance and `SHA256SUMS.txt` and prepares a draft release, a manual `publish-crate.yml`, `ci.yml` (fmt, clippy, tests, cargo-deny) and `docs/RELEASING.md`

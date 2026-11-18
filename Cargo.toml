@@ -2,7 +2,7 @@
 # The crates.io name `orrery` belongs to an unrelated project, so the package is
 # `orrery-viewer`; the program it installs is still `orrery` (see [[bin]]).
 name = "orrery-viewer"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 # Oldest toolchain the crate was built with (cargo check, 2026-11-19); the
 # dependencies themselves need 1.88.
